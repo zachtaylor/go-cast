@@ -73,7 +73,7 @@ func Bool(any interface{}) bool {
 	case float64:
 		return v > 0
 	case string:
-		return v != ""
+		return v != "" && v != "false"
 	default:
 		return false
 	}
