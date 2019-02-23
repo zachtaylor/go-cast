@@ -32,6 +32,11 @@ func String(any interface{}) string {
 		return v
 	case Stringer:
 		return v.String()
+	case bool:
+		if v {
+			return "true"
+		}
+		return "false"
 	case int:
 		return i2s(v)
 	case uint:
@@ -58,6 +63,11 @@ func Int(any interface{}) int {
 		return int(v)
 	case string:
 		return s2i(v)
+	case bool:
+		if v {
+			return 1
+		}
+		return -1
 	default:
 		return 0
 	}
