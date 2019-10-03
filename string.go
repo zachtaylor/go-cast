@@ -27,7 +27,7 @@ func String(any interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
-		return ""
+		return fmt.Sprint(any)
 	}
 }
 
