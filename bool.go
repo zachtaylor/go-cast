@@ -7,6 +7,8 @@ func Bool(any interface{}) bool {
 	switch v := any.(type) {
 	case nil:
 		return false
+	case bool:
+		return v
 	case string:
 		return BoolS(v)
 	case fmt.Stringer:
@@ -15,8 +17,6 @@ func Bool(any interface{}) bool {
 		return len(v) > 0
 	case error:
 		return v != nil
-	case bool:
-		return v
 	case int:
 		return v > 0
 	case uint:
