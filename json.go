@@ -1,7 +1,5 @@
 package cast
 
-import "strings"
-
 // JSON is basic KV with value conversion getters
 type JSON map[string]interface{}
 
@@ -28,7 +26,7 @@ func (json JSON) GetB(k string) bool {
 }
 
 func (json JSON) String() string {
-	var sb strings.Builder
+	var sb StringBuilder
 	var size int
 	var k string
 	var v interface{}
