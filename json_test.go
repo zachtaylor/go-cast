@@ -25,7 +25,7 @@ func MakeData() map[string]interface{} {
 	}
 }
 
-func BenchmarkLoadedMapString(b *testing.B) {
+func BenchmarkLoadedMapFmtSprintf(b *testing.B) {
 	data := MakeData()
 	for i := 0; i < b.N; i++ {
 		fmt.Sprintf("%v", data)
