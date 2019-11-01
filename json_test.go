@@ -19,32 +19,21 @@ func MakeData() map[string]interface{} {
 		"b2":   false,
 		"map":  map[string]interface{}{},
 		"json": cast.JSON{},
+		"dat1": "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+		"dat2": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+		"dat3": "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz",
 	}
 }
 
-func BenchmarkLoadedMapString(b *testing.B) {
+func BenchmarkLoadedMapFmtSprintf(b *testing.B) {
 	data := MakeData()
 	for i := 0; i < b.N; i++ {
-		cast.String(data)
+		fmt.Sprintf("%v", data)
 	}
 }
-func BenchmarkLoadedJSONString(b *testing.B) {
+func BenchmarkLoadedCastJSONString(b *testing.B) {
 	data := cast.JSON(MakeData())
 	for i := 0; i < b.N; i++ {
 		cast.String(data)
-	}
-}
-
-func BenchmarkNilJSONFmtSprint(b *testing.B) {
-	data := cast.JSON(nil)
-	for i := 0; i < b.N; i++ {
-		_ = fmt.Sprint(data)
-	}
-}
-
-func BenchmarkNilJSONCastString(b *testing.B) {
-	data := cast.JSON(nil)
-	for i := 0; i < b.N; i++ {
-		_ = cast.String(data)
 	}
 }

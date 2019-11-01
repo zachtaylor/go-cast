@@ -27,6 +27,9 @@ func String(any interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
+		if slice, ok := castSlice(any); ok {
+			return Arr(slice).String()
+		}
 		return fmt.Sprint(any)
 	}
 }
