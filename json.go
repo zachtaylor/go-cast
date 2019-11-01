@@ -27,14 +27,8 @@ func (json JSON) GetB(k string) bool {
 
 func (json JSON) String() string {
 	var sb StringBuilder
-	var size int
 	var k string
 	var v interface{}
-	for k, _ = range json {
-		size += len(k)
-		size += 12
-	}
-	sb.Grow(size)
 	sb.WriteByte('{')
 	first := true
 	for k, v = range json {
