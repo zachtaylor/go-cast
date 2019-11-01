@@ -7,7 +7,8 @@ Now I will never write these functions again
 ## Changelog
 
 - v0.0.4 @2019-11-01
-  - add `cast.Array` as `[]interface{}`
+  - add type `cast.Array`
+  - add func `cast.Arr`, `cast.NewArray`, `cast.SpreadArray`
   - remove json string presize `Grow` guess logic
 - v0.0.3 @ 2019-10-03
   - repack `cast.Fields` as `cast.JSON`
@@ -40,14 +41,28 @@ Now I will never write these functions again
 goos: windows
 goarch: amd64
 pkg: ztaylor.me/cast
-BenchmarkBuiltinStringBytes-4     	225849532	         5.36 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCastStringBytes-4        	1000000000	         0.345 ns/op	       0 B/op	       0 allocs/op
-BenchmarkBuiltinBytesS-4          	196473529	         6.07 ns/op	       0 B/op	       0 allocs/op
-BenchmarkCastBytesS-4             	1000000000	         0.360 ns/op	       0 B/op	       0 allocs/op
-BenchmarkLoadedMapFmtSprintf-4    	  175708	      6724 ns/op	    1736 B/op	      36 allocs/op
-BenchmarkLoadedCastJSONString-4   	  945350	      1259 ns/op	    1163 B/op	      11 allocs/op
-BenchmarkStringFmtSprint-4        	10604546	       114 ns/op	      64 B/op	       2 allocs/op
-BenchmarkStringCastString-4       	38424345	        31.4 ns/op	      16 B/op	       1 allocs/op
+BenchmarkBuiltinStringBytes-4           225261331                5.32 ns/op            0 B/op          0 allocs/op
+BenchmarkCastStringBytes-4              1000000000               0.267 ns/op           0 B/op          0 allocs/op
+BenchmarkBuiltinBytesS-4                191671183                6.22 ns/op            0 B/op          0 allocs/op
+BenchmarkCastBytesS-4                   1000000000               0.267 ns/op           0 B/op          0 allocs/op
+BenchmarkLoadedMapFmtSprintf-4            175710              6600 ns/op            1736 B/op         36 allocs/op
+BenchmarkLoadedCastJSONString-4           946446              1227 ns/op            1142 B/op         11 allocs/op
+BenchmarkStringFmtSprint-4              11029989               113 ns/op              64 B/op          2 allocs/op
+BenchmarkStringCastString-4             39680570                31.0 ns/op            16 B/op          1 allocs/op
+```
+
+```
+goos: linux
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes   	46444358	        25.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCastStringBytes      	296433331	         4.05 ns/op	       0 B/op	       0 allocs/op
+BenchmarkBuiltinBytesS        	36157374	        32.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCastBytesS           	304336578	         3.75 ns/op	       0 B/op	       0 allocs/op
+BenchmarkLoadedMapFmtSprintf  	   40173	     28539 ns/op	    1736 B/op	      36 allocs/op
+BenchmarkLoadedCastJSONString 	  240616	      4965 ns/op	    1141 B/op	      11 allocs/op
+BenchmarkStringFmtSprint      	 2410371	       491 ns/op	      64 B/op	       2 allocs/op
+BenchmarkStringCastString     	 7351100	       147 ns/op	      16 B/op	       1 allocs/op
 ```
 
 ### v0.0.3
