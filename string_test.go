@@ -32,29 +32,23 @@ func TestBoolNilCastString(t *testing.T) {
 	}
 }
 
+func TestSliceString(t *testing.T) {
+	bs := []bool{true, true, true, false, false, true, false}
+	if cast.String(bs) == "" {
+		t.Log(`cast.String(boolslice) == ""`)
+		t.Fail()
+	}
+}
+
 func BenchmarkStringFmtSprint(b *testing.B) {
-	data := "string"
+	data := "stringdata123456789123456789123456789"
 	for i := 0; i < b.N; i++ {
 		_ = fmt.Sprint(data)
 	}
 }
 
-func BenchmarkStringCastSprint(b *testing.B) {
-	data := "string"
-	for i := 0; i < b.N; i++ {
-		_ = cast.String(data)
-	}
-}
-
-func BenchmarkNilMapFmtSprint(b *testing.B) {
-	data := interface{}(nil)
-	for i := 0; i < b.N; i++ {
-		_ = fmt.Sprint(data)
-	}
-}
-
-func BenchmarkNilMapCastString(b *testing.B) {
-	data := interface{}(nil)
+func BenchmarkStringCastString(b *testing.B) {
+	data := "stringdata123456789123456789123456789"
 	for i := 0; i < b.N; i++ {
 		_ = cast.String(data)
 	}
