@@ -15,23 +15,9 @@ func TestArrayNil(t *testing.T) {
 	}
 }
 
-func TestArrayString(t *testing.T) {
-	ans := []interface{}{"hello world", 42, cast.Stringer(`foobar`), true}
-	anss := `["hello world",42,foobar,true]`
-	if str := cast.String(ans); str != anss {
-		t.Log(`String()=` + str + ` expected=` + anss)
-		t.Fail()
-	}
-	array := cast.SpreadArray(ans)
-	if str := array.String(); str != anss {
-		t.Log(`array.String=` + str + ` expected=` + anss)
-		t.Fail()
-	}
-}
-
-func TestSpreadArray(t *testing.T) {
+func TestReflectArray(t *testing.T) {
 	ans := []bool{true, true, false, false, true, false}
-	if array := cast.SpreadArray(ans); array != nil {
+	if array, ok := cast.ReflectArray(ans); ok {
 		anslen := len(ans)
 		actlen := array.Length()
 		if actlen != anslen {

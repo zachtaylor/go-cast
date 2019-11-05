@@ -1,9 +1,6 @@
 package cast
 
-import (
-	"strconv"
-	"strings"
-)
+import "strconv"
 
 // String cast any value to string
 func String(arg interface{}) string {
@@ -27,8 +24,10 @@ func String(arg interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
-		if slice, ok := castSlice(any); ok {
-			return Arr(slice).String()
+		if array, ok := ReflectArray(arg); ok {
+			return array.String()
+		} else if dict, ok := ReflectDict(arg); ok {
+			return dict.String()
 		}
 		return Sprint(arg)
 	}
