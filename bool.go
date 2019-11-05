@@ -12,7 +12,7 @@ func Bool(any interface{}) bool {
 	case IStringer:
 		return BoolS(v.String())
 	case []byte:
-		return len(v) > 0
+		return BoolS(StringBytes(v))
 	case error:
 		return v != nil
 	case int:
