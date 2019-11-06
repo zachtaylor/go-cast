@@ -24,12 +24,7 @@ func String(arg interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
-		if array, ok := ReflectArray(arg); ok {
-			return array.String()
-		} else if dict, ok := ReflectDict(arg); ok {
-			return dict.String()
-		}
-		return Sprint(arg)
+		return ReflectString(v)
 	}
 }
 

@@ -8,6 +8,16 @@ func Reflect(arg interface{}, kind reflect.Kind) (reflect.Value, bool) {
 	return val, val.Kind() == kind
 }
 
+// ReflectString uses ReflectArray and ReflectMap, or Sprint
+func ReflectString(arg interface{}) string {
+	if array, ok := ReflectArray(arg); ok {
+		return array.String()
+	} else if dict, ok := ReflectDict(arg); ok {
+		return dict.String()
+	}
+	return Sprint(arg)
+}
+
 // ReflectArray uses reflect to Array
 func ReflectArray(arg interface{}) (out Array, ok bool) {
 	var val reflect.Value
