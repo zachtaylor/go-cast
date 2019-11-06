@@ -24,8 +24,8 @@ func (json JSON) GetB(k string) bool {
 }
 
 // String encodes JSON to string
-func (json JSON) String() string {
-	var sb StringBuilder
+func (json JSON) String() (str string) {
+	sb := poolStringBuilder.Get().(StringBuilder)
 	var k string
 	var v interface{}
 	sb.WriteByte('{')
@@ -42,7 +42,10 @@ func (json JSON) String() string {
 		sb.WriteString(EncodeJSON(v))
 	}
 	sb.WriteByte('}')
-	return sb.String()
+	str = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
 }
 
 // Copy returns a new JSON that is shallow-copied

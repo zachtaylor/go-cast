@@ -2,7 +2,7 @@ package cast_test
 
 import "ztaylor.me/cast"
 
-func MakeDataArray() []interface{} {
+func MakeDataSlice() []interface{} {
 	return []interface{}{
 		"hello world",
 		"1",

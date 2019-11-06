@@ -29,8 +29,8 @@ func (d *Dict) Unset(k interface{}) {
 }
 
 // String uses the same format as fmt but it's faster when Dict is fmt.Stringer
-func (d *Dict) String() string {
-	var sb StringBuilder
+func (d *Dict) String() (str string) {
+	sb := poolStringBuilder.Get().(StringBuilder)
 	sb.WriteString(`map[`)
 	first := true
 	for k, v := range *d {
@@ -43,5 +43,8 @@ func (d *Dict) String() string {
 		first = false
 	}
 	sb.WriteByte(']')
-	return sb.String()
+	str = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
 }

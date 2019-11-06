@@ -2,20 +2,10 @@ package cast
 
 import "reflect"
 
-// Reflect uses reflect to any kind, but it always finishes, so you must check kind with ok
+// Reflect uses reflect to any kind, and it always finishes
 func Reflect(arg interface{}, kind reflect.Kind) (reflect.Value, bool) {
 	val := reflect.ValueOf(arg)
 	return val, val.Kind() == kind
-}
-
-// ReflectString uses ReflectArray and ReflectMap, or Sprint
-func ReflectString(arg interface{}) string {
-	if array, ok := ReflectArray(arg); ok {
-		return array.String()
-	} else if dict, ok := ReflectDict(arg); ok {
-		return dict.String()
-	}
-	return Sprint(arg)
 }
 
 // ReflectArray uses reflect to Array

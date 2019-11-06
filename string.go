@@ -24,7 +24,7 @@ func String(arg interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
-		return ReflectString(v)
+		return Sprint(arg)
 	}
 }
 

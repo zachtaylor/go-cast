@@ -34,14 +34,14 @@ func EncodeJSON(arg interface{}) (str string) {
 }
 
 type encoder interface {
-	EncodeJSON() string
+	JSON() JSON
 }
 
 // EncodeJSON builds a JSON string representation of this slice
 //
 // See `EncodeJSON`
-func (a *Array) EncodeJSON() string {
-	var sb StringBuilder
+func (a *Array) EncodeJSON() (str string) {
+	sb := poolStringBuilder.Get().(StringBuilder)
 	sb.WriteByte('[')
 	for k, v := range *a {
 		if k > 0 {
@@ -50,14 +50,17 @@ func (a *Array) EncodeJSON() string {
 		sb.WriteString(EncodeJSON(v))
 	}
 	sb.WriteByte(']')
-	return sb.String()
+	str = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
 }
 
 // EncodeJSON builds a JSON string representation of this map
 //
 // See `EncodeJSON`
-func (d *Dict) EncodeJSON() string {
-	var sb StringBuilder
+func (d *Dict) EncodeJSON() (str string) {
+	sb := poolStringBuilder.Get().(StringBuilder)
 	var k, v interface{}
 	sb.WriteByte('{')
 	first := true
@@ -72,5 +75,8 @@ func (d *Dict) EncodeJSON() string {
 		sb.WriteString(EncodeJSON(v))
 	}
 	sb.WriteByte('}')
-	return sb.String()
+	str = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
 }

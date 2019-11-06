@@ -36,16 +36,19 @@ func (a *Array) Add(items ...interface{}) {
 	}
 }
 
-// String uses the same format as fmt but it's faster when Array is fmt.Stringer
-func (a *Array) String() string {
-	var sb StringBuilder
-	sb.WriteString(`[`)
-	for k, v := range *a {
-		if k > 0 {
-			sb.WriteByte(' ')
-		}
-		sb.WriteString(String(v))
-	}
-	sb.WriteByte(']')
-	return sb.String()
-}
+// // String isn't faster than fmt.Sprintf([]interface{})
+// func (a *Array) String() (str string) {
+// 	sb := poolStringBuilder.Get().(StringBuilder)
+// 	sb.WriteByte('[')
+// 	for k, v := range *a {
+// 		if k > 0 {
+// 			sb.WriteByte(' ')
+// 		}
+// 		sb.WriteString(String(v))
+// 	}
+// 	sb.WriteByte(']')
+// 	str = sb.String()
+// 	sb.Reset()
+// 	poolStringBuilder.Put(sb)
+// 	return
+// }
