@@ -7,6 +7,8 @@ func EncodeJSON(arg interface{}) (str string) {
 		str = `"` + EscapeString(v) + `"`
 	case IStringer:
 		str = v.String()
+	case encoder:
+		str = v.JSON().String()
 	case []byte:
 		str = StringBytes(v)
 	case error:

@@ -1,6 +1,7 @@
 package cast_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
@@ -39,6 +40,13 @@ func BenchmarkLoadedMapSprintf(b *testing.B) {
 	data := MakeDataMap()
 	for i := 0; i < b.N; i++ {
 		fmt.Sprintf("%v", data)
+	}
+}
+
+func BenchmarkLoadedMapJsonMarshal(b *testing.B) {
+	data := MakeDataMap()
+	for i := 0; i < b.N; i++ {
+		json.Marshal(data)
 	}
 }
 

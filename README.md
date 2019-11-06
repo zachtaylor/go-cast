@@ -6,6 +6,11 @@ Now I will never write these functions again
 
 ## Changelog
 
+- v0.0.5 @2019-11-05
+  - add `Pool = sync.Pool`
+  - add `EncodeJSON(any)`
+  - change JSON string encoding, now string escape `\` and `"` with an extra `\`
+  - added test data for heavier bench
 - v0.0.4 @2019-11-01
   - add type `cast.Array`
   - add func `cast.Arr`, `cast.NewArray`, `cast.SpreadArray`
@@ -34,6 +39,46 @@ Now I will never write these functions again
   - add `cast.String`, `cast.Int`, `cast.Bool`
 
 ## Benchmarks
+
+### v0.0.5
+
+```
+goos: windows
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes-4           225151906                5.37 ns/op            0 B/op          0 allocs/op
+BenchmarkCastStringBytes-4              1000000000               0.266 ns/op           0 B/op          0 allocs/op
+
+BenchmarkBuiltinBytesS-4                198681680                6.02 ns/op            0 B/op          0 allocs/op
+BenchmarkCastBytesS-4                   1000000000               0.263 ns/op           0 B/op          0 allocs/op
+
+BenchmarkLoadedMapSprintf-4               173976              6570 ns/op            1768 B/op         37 allocs/op
+BenchmarkLoadedMapJsonMarshal-4           203464              5922 ns/op            2144 B/op         37 allocs/op
+BenchmarkLoadedJSONString-4               600020              2023 ns/op            1406 B/op         19 allocs/op
+BenchmarkLoadedDictString-4               922408              1325 ns/op            1024 B/op         13 allocs/op
+
+BenchmarkStringSprint-4                 10909456               110 ns/op              64 B/op          2 allocs/op
+BenchmarkStringString-4                 40006533                30.3 ns/op            16 B/op          1 allocs/op
+```
+
+```
+goos: linux
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes   	39096788	        25.6 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCastStringBytes      	308717432	         3.87 ns/op	       0 B/op	       0 allocs/op
+
+BenchmarkBuiltinBytesS        	29764130	        36.0 ns/op	       0 B/op	       0 allocs/op
+BenchmarkCastBytesS           	303753740	         3.90 ns/op	       0 B/op	       0 allocs/op
+
+BenchmarkLoadedMapSprintf     	   40836	     28837 ns/op	    1768 B/op	      37 allocs/op
+BenchmarkLoadedMapJsonMarshal 	   44342	     25758 ns/op	    2144 B/op	      37 allocs/op
+BenchmarkLoadedJSONString     	  130828	      8370 ns/op	    1426 B/op	      19 allocs/op
+BenchmarkLoadedDictString     	  185958	      5523 ns/op	    1019 B/op	      12 allocs/op
+
+BenchmarkStringSprint         	 2340438	       497 ns/op	      64 B/op	       2 allocs/op
+BenchmarkStringString         	 7812093	       148 ns/op	      16 B/op	       1 allocs/op
+```
 
 ### v0.0.4
 
