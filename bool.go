@@ -1,7 +1,5 @@
 package cast
 
-import "fmt"
-
 // Bool cast any value to bool
 func Bool(any interface{}) bool {
 	switch v := any.(type) {
@@ -11,10 +9,10 @@ func Bool(any interface{}) bool {
 		return v
 	case string:
 		return BoolS(v)
-	case fmt.Stringer:
+	case IStringer:
 		return BoolS(v.String())
 	case []byte:
-		return len(v) > 0
+		return BoolS(StringBytes(v))
 	case error:
 		return v != nil
 	case int:

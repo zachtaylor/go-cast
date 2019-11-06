@@ -6,7 +6,7 @@ import (
 	"ztaylor.me/cast"
 )
 
-func TestBool(t *testing.T) {
+func TestCastBool(t *testing.T) {
 	if cast.Bool(nil) {
 		t.Log(`cast.Bool(nil)!=false`)
 		t.Fail()
@@ -22,8 +22,8 @@ func TestBool(t *testing.T) {
 		t.Fail()
 	}
 
-	if !cast.Bool([]byte{'h', 'i'}) {
-		t.Log(`cast.Bool([]byte{'h', 'i'})==false`)
+	if cast.Bool([]byte{'f', 'a', 'l', 's', 'e'}) {
+		t.Log(`cast.Bool([]byte{'f', 'a', 'l', 's', 'e'})!=false`)
 		t.Fail()
 	}
 }

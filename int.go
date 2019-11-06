@@ -1,9 +1,6 @@
 package cast
 
-import (
-	"fmt"
-	"strconv"
-)
+import "strconv"
 
 // Int cast any value to int
 func Int(any interface{}) int {
@@ -18,7 +15,7 @@ func Int(any interface{}) int {
 		return int(v)
 	case string:
 		return IntS(v)
-	case fmt.Stringer:
+	case IStringer:
 		return IntS(v.String())
 	case bool:
 		if v {

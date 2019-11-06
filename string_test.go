@@ -1,55 +1,25 @@
 package cast_test
 
 import (
-	"fmt"
 	"testing"
 
 	"ztaylor.me/cast"
 )
 
-func TestMapCastString(t *testing.T) {
-	data := map[string]interface{}{}
-	if cast.String(data) == "" {
-		t.Log(`cast.String(map) == ""`)
+func TestCastString(t *testing.T) {
+	ans := []interface{}{"hello world", map[int]bool{20: true}, map[string]string{"x": "19"}, cast.Stringer(`foobar`)}
+	anss := `[hello world map[20:true] map[x:19] foobar]`
+	if str := cast.String(ans); str != anss {
+		t.Log(`Expected ` + anss)
+		t.Log(`Received ` + str)
 		t.Fail()
 	}
 }
 
-func TestBoolNilCastString(t *testing.T) {
-	if cast.String(true) == cast.String(false) {
-		t.Log(`cast.String(true) == cast.String(false)`)
+func TestCastStringBool(t *testing.T) {
+	if "true" != cast.String(true) {
 		t.Fail()
-	}
-
-	if cast.String(nil) == cast.String(false) {
-		t.Log(`cast.String(nil) == cast.String(false)`)
+	} else if "false" != cast.String(false) {
 		t.Fail()
-	}
-
-	if cast.String([]byte{'f', 'o', 'o'}) == cast.String([]byte{'b', 'a', 'r'}) {
-		t.Log(`cast.String([]byte)`)
-		t.Fail()
-	}
-}
-
-func TestSliceString(t *testing.T) {
-	bs := []bool{true, true, true, false, false, true, false}
-	if cast.String(bs) == "" {
-		t.Log(`cast.String(boolslice) == ""`)
-		t.Fail()
-	}
-}
-
-func BenchmarkStringFmtSprint(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
-	for i := 0; i < b.N; i++ {
-		_ = fmt.Sprint(data)
-	}
-}
-
-func BenchmarkStringCastString(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
-	for i := 0; i < b.N; i++ {
-		_ = cast.String(data)
 	}
 }

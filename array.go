@@ -1,63 +1,29 @@
 package cast
 
-// Array is used to shuffle slices of data, and has extra controls suitable for encoding
-type Array struct {
-	Items   []interface{}
-	Encoder ArrayEncoder
-}
+// Array is a slice of any
+type Array []interface{}
 
-// ArrayEncoder writes array to []byte
+// ArrayEncoder writes array to string
 type ArrayEncoder func(*Array) string
-
-// defaultArrayEncoder writes arrays with [x,x,...,x], escapes string literals in "quotes"
-func defaultArrayEncoder(a *Array) string {
-	var sb StringBuilder
-	sb.WriteByte('[')
-	for k, v := range a.Items {
-		if k > 0 {
-			sb.WriteByte(',')
-		}
-		switch v.(type) {
-		case string:
-			sb.WriteByte('"')
-			sb.WriteString(String(v))
-			sb.WriteByte('"')
-		default:
-			sb.WriteString(String(v))
-		}
-	}
-	sb.WriteByte(']')
-	return sb.String()
-}
-
-// Arr creates a new Array with literal `[]interface{}`
-func Arr(slice []interface{}) *Array {
-	return &Array{slice, defaultArrayEncoder}
-}
 
 // NewArray takes any number of arguments of any type
 //
-// it's actually illegal to use the spread operator with any type besides `[]interface{}`, see `SpreadArray`
-func NewArray(items ...interface{}) *Array {
-	return Arr(items)
+// it's actually illegal to use the spread operator with any type besides `[]interface{}`, see `ReflectArray`
+func NewArray(items ...interface{}) Array {
+	return Array(items)
 }
 
-// SpreadArray casts any slice (w/reflect) into NewArray
-func SpreadArray(slice interface{}) (a *Array) {
-	if v, ok := castSlice(slice); ok {
-		a = NewArray(v...)
+// Get returns the slice value
+func (a *Array) Get(i int) (val interface{}) {
+	if a != nil {
+		val = (*a)[i]
 	}
 	return
 }
 
-// Get returns the slice
-func (a *Array) Get(i int) interface{} {
-	return a.Items[i]
-}
-
 // Length returns len(a.items)
-func (a *Array) Length() int {
-	return len(a.Items)
+func (a Array) Length() int {
+	return len(a)
 }
 
 // Add adds items to the items
@@ -66,14 +32,23 @@ func (a *Array) Add(items ...interface{}) {
 		return
 	}
 	for _, item := range items {
-		a.Items = append(a.Items, item)
+		*a = append(*a, item)
 	}
 }
 
-// String uses the internal encoder if available, else package-level String
-func (a *Array) String() string {
-	if a.Encoder == nil {
-		return defaultArrayEncoder(a)
-	}
-	return a.Encoder(a)
-}
+// // String isn't faster than fmt.Sprintf([]interface{})
+// func (a *Array) String() (str string) {
+// 	sb := poolStringBuilder.Get().(StringBuilder)
+// 	sb.WriteByte('[')
+// 	for k, v := range *a {
+// 		if k > 0 {
+// 			sb.WriteByte(' ')
+// 		}
+// 		sb.WriteString(String(v))
+// 	}
+// 	sb.WriteByte(']')
+// 	str = sb.String()
+// 	sb.Reset()
+// 	poolStringBuilder.Put(sb)
+// 	return
+// }

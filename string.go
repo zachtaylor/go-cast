@@ -1,16 +1,13 @@
 package cast
 
-import (
-	"fmt"
-	"strconv"
-)
+import "strconv"
 
 // String cast any value to string
-func String(any interface{}) string {
-	switch v := any.(type) {
+func String(arg interface{}) string {
+	switch v := arg.(type) {
 	case string:
 		return v
-	case fmt.Stringer:
+	case IStringer:
 		return v.String()
 	case []byte:
 		return StringBytes(v)
@@ -27,10 +24,7 @@ func String(any interface{}) string {
 	case float64:
 		return StringF(v)
 	default:
-		if slice, ok := castSlice(any); ok {
-			return Arr(slice).String()
-		}
-		return fmt.Sprint(any)
+		return Sprint(arg)
 	}
 }
 

@@ -1,20 +1,14 @@
 package cast // import "ztaylor.me/cast"
 
-import "reflect"
-
-func cast(arg interface{}, kind reflect.Kind) (reflect.Value, bool) {
-	val := reflect.ValueOf(arg)
-	return val, val.Kind() == kind
+// poolStringBuilder is a global variable for pooling StringBuilder
+var poolStringBuilder = Pool{
+	New: func() interface{} {
+		return StringBuilder{}
+	},
 }
 
-func castSlice(arg interface{}) (out []interface{}, ok bool) {
-	var slice reflect.Value
-	if slice, ok = cast(arg, reflect.Slice); ok {
-		len := slice.Len()
-		out = make([]interface{}, len)
-		for i := 0; i < len; i++ {
-			out[i] = slice.Index(i).Interface()
-		}
-	}
-	return
+func init() {
+	// just gonna pool a string builder in package scope
+	poolStringBuilder.Put(poolStringBuilder.New())
+	poolStringBuilder.Put(poolStringBuilder.New())
 }
