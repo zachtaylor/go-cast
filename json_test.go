@@ -1,21 +1,28 @@
 package cast_test
 
 import (
-	"fmt"
 	"testing"
 
 	"ztaylor.me/cast"
 )
 
-func BenchmarkLoadedMapFmtSprintf(b *testing.B) {
-	data := MakeDataMap()
-	for i := 0; i < b.N; i++ {
-		fmt.Sprintf("%v", data)
+func TestJSONCopy(t *testing.T) {
+	data := cast.JSON{
+		"k1": "v1",
+		"k2": "v2",
+		"k3": "v3",
+		"i1": 1,
+		"i2": 2,
+		"i3": 3,
+		"b1": true,
+		"b2": false,
 	}
-}
-func BenchmarkLoadedCastJSONString(b *testing.B) {
-	data := cast.JSON(MakeDataMap())
-	for i := 0; i < b.N; i++ {
-		cast.String(data)
+	data2 := data.Copy()
+	for k, v := range data {
+		if data2[k] != v {
+			t.Log(`Expected`, v)
+			t.Log(`Actual`, data2[k])
+			t.Fail()
+		}
 	}
 }

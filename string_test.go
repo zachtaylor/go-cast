@@ -1,7 +1,6 @@
 package cast_test
 
 import (
-	"fmt"
 	"testing"
 
 	"ztaylor.me/cast"
@@ -22,19 +21,5 @@ func TestCastStringBool(t *testing.T) {
 		t.Fail()
 	} else if "false" != cast.String(false) {
 		t.Fail()
-	}
-}
-
-func BenchmarkStringFmtSprint(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
-	for i := 0; i < b.N; i++ {
-		_ = fmt.Sprint(data)
-	}
-}
-
-func BenchmarkStringCastString(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
-	for i := 0; i < b.N; i++ {
-		_ = cast.String(data)
 	}
 }
