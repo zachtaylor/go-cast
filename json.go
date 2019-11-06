@@ -3,9 +3,7 @@ package cast
 // JSON is basic KV with value conversion getters
 type JSON map[string]interface{}
 
-// Get returns the value for the key
-//
-// To check for existence specifically, use map indexing instead ojson this func
+// Get returns the value for the key, use map indexing for existance 'ok'
 func (json JSON) Get(k string) interface{} {
 	return json[k]
 }
@@ -25,6 +23,7 @@ func (json JSON) GetB(k string) bool {
 	return Bool(json[k])
 }
 
+// String encodes JSON to string
 func (json JSON) String() string {
 	var sb StringBuilder
 	var k string
@@ -38,27 +37,21 @@ func (json JSON) String() string {
 			first = false
 		}
 		sb.WriteByte('"')
-		sb.WriteString(k)
-
-		switch x := v.(type) {
-		case string:
-			sb.WriteString(`":"`)
-			sb.WriteString(x)
-			sb.WriteByte('"')
-		default:
-			sb.WriteString(`":`)
-			sb.WriteString(String(v))
-		}
+		sb.WriteString(EscapeString(k))
+		sb.WriteString(`":`)
+		sb.WriteString(EncodeJSON(v))
 	}
 	sb.WriteByte('}')
 	return sb.String()
 }
 
 // Copy returns a new JSON that is shallow-copied
-func (json JSON) Copy() JSON {
-	JSON := JSON{}
-	for k, v := range json {
-		JSON[k] = v
+func (json JSON) Copy() (j JSON) {
+	if json != nil {
+		j = JSON{}
+		for k, v := range json {
+			j[k] = v
+		}
 	}
-	return JSON
+	return
 }
