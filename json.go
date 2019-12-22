@@ -25,7 +25,8 @@ func (json JSON) GetB(k string) bool {
 
 // String encodes JSON to string
 func (json JSON) String() (str string) {
-	sb := poolStringBuilder.Get().(StringBuilder)
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	sb.Grow(32 * len(json))
 	var k string
 	var v interface{}
 	sb.WriteByte('{')

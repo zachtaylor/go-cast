@@ -43,7 +43,8 @@ type encoder interface {
 //
 // See `EncodeJSON`
 func (a *Array) EncodeJSON() (str string) {
-	sb := poolStringBuilder.Get().(StringBuilder)
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	sb.Grow(32 * len(*a))
 	sb.WriteByte('[')
 	for k, v := range *a {
 		if k > 0 {
@@ -62,7 +63,8 @@ func (a *Array) EncodeJSON() (str string) {
 //
 // See `EncodeJSON`
 func (d *Dict) EncodeJSON() (str string) {
-	sb := poolStringBuilder.Get().(StringBuilder)
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	sb.Grow(32 * len(*d))
 	var k, v interface{}
 	sb.WriteByte('{')
 	first := true

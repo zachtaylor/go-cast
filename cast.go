@@ -3,12 +3,17 @@ package cast // import "ztaylor.me/cast"
 // poolStringBuilder is a global variable for pooling StringBuilder
 var poolStringBuilder = Pool{
 	New: func() interface{} {
-		return StringBuilder{}
+		return &StringBuilder{}
 	},
 }
 
+// Pool StringBuilder
+//
+// sb := poolStringBuilder.Get().(StringBuilder)
+// ...
+// sb.Reset()
+// poolStringBuilder.Put(sb)
 func init() {
-	// just gonna pool a string builder in package scope
-	poolStringBuilder.Put(poolStringBuilder.New())
+	// pool first string builder in package scope
 	poolStringBuilder.Put(poolStringBuilder.New())
 }

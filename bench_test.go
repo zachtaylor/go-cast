@@ -36,58 +36,85 @@ func BenchmarkCastBytesS(b *testing.B) {
 	}
 }
 
-func BenchmarkLoadedMapSprintf(b *testing.B) {
+// encoding races
+
+// map format
+
+func BenchmarkSTDFmtSprintfBuiltinMap(b *testing.B) {
 	data := MakeDataMap()
 	for i := 0; i < b.N; i++ {
 		fmt.Sprintf("%v", data)
 	}
 }
 
-func BenchmarkLoadedMapJsonMarshal(b *testing.B) {
+func BenchmarkSTDJsonMarshalBuiltinMap(b *testing.B) {
 	data := MakeDataMap()
 	for i := 0; i < b.N; i++ {
 		json.Marshal(data)
 	}
 }
 
-func BenchmarkLoadedJSONString(b *testing.B) {
+func BenchmarkCastDictEncodeJSON(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap())
+	for i := 0; i < b.N; i++ {
+		data.EncodeJSON()
+	}
+}
+
+func BenchmarkCastStringBuiltinMap(b *testing.B) {
+	data := MakeDataMap()
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+
+func BenchmarkCastJSONString(b *testing.B) {
 	data := cast.JSON(MakeDataMap())
 	for i := 0; i < b.N; i++ {
 		cast.String(data)
 	}
 }
 
-func BenchmarkLoadedDictString(b *testing.B) {
+func BenchmarkCastDictString(b *testing.B) {
 	data, _ := cast.ReflectDict(MakeDataMap())
 	for i := 0; i < b.N; i++ {
 		data.String()
 	}
 }
 
-// func BenchmarkLoadedSliceSprint(b *testing.B) {
-// 	data := MakeDataSlice()
-// 	for i := 0; i < b.N; i++ {
-// 		cast.Sprint(data)
-// 	}
-// }
+// array format
 
-// func BenchmarkLoadedArrayString(b *testing.B) {
-// 	data := cast.Array(MakeDataSlice())
-// 	for i := 0; i < b.N; i++ {
-// 		cast.String(data)
-// 	}
-// }
-
-func BenchmarkStringSprint(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
+func BenchmarkSTDFmtSprintBuiltinSlice(b *testing.B) {
+	data := MakeDataSlice()
 	for i := 0; i < b.N; i++ {
-		_ = cast.Sprint(data)
+		fmt.Sprint(data...)
 	}
 }
 
-func BenchmarkStringString(b *testing.B) {
-	data := "stringdata123456789123456789123456789"
+func BenchmarkSTDJsonMarshalBuiltinSlice(b *testing.B) {
+	data := MakeDataSlice()
 	for i := 0; i < b.N; i++ {
-		_ = cast.String(data)
+		json.Marshal(data)
+	}
+}
+
+func BenchmarkCastStringBuiltinSlice(b *testing.B) {
+	data := MakeDataSlice()
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+
+func BenchmarkCastStringCastArray(b *testing.B) {
+	data := cast.Array(MakeDataSlice())
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+
+func BenchmarkCastStringNBuiltinSlice(b *testing.B) {
+	data := MakeDataSlice()
+	for i := 0; i < b.N; i++ {
+		cast.StringN(data...)
 	}
 }

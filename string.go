@@ -1,31 +1,64 @@
 package cast
 
-import "strconv"
-
-// String cast any value to string
-func String(arg interface{}) string {
+// String casts any value to string
+func String(arg interface{}) (str string) {
 	switch v := arg.(type) {
 	case string:
-		return v
+		str = v
 	case IStringer:
-		return v.String()
+		str = v.String()
 	case []byte:
-		return StringBytes(v)
+		str = StringBytes(v)
 	case error:
-		return v.Error()
+		str = v.Error()
 	case bool:
-		return StringB(v)
+		str = StringB(v)
 	case int:
-		return StringI(v)
+		str = StringI(v)
 	case uint:
-		return StringUI(v)
+		str = StringUI(v)
 	case int64:
-		return StringI64(v)
+		str = StringI64(v)
 	case float64:
-		return StringF(v)
+		str = StringF(v)
+	case []interface{}:
+		str = Array(v).String()
+	case map[interface{}]interface{}:
+		str = Dict(v).String()
+	case map[string]interface{}:
+		str = JSON(v).String()
 	default:
-		return Sprint(arg)
+		str = Sprint(arg)
 	}
+	return
+}
+
+// StringN cast any number of values to string
+//
+// the fastest slice encoder in the west
+func StringN(args ...interface{}) (str string) {
+	if args == nil || len(args) < 1 {
+		// skip
+	} else if len(args) == 1 {
+		str = String(args[0])
+	} else {
+		sb, first := poolStringBuilder.Get().(*StringBuilder), true
+		sb.Grow(32 * len(args))
+		sb.WriteByte('[')
+		for _, arg := range args {
+			if first {
+				first = false
+			} else {
+				sb.WriteByte(' ')
+			}
+			sb.WriteString(String(arg))
+		}
+		sb.WriteByte(']')
+		str = sb.String()
+		sb.Reset()
+		poolStringBuilder.Put(sb)
+	}
+	return
 }
 
 // StringB casts bool to string
@@ -34,24 +67,4 @@ func StringB(b bool) string {
 		return "true"
 	}
 	return "false"
-}
-
-// StringI casts int to string
-func StringI(i int) string {
-	return strconv.Itoa(i)
-}
-
-// StringUI casts uint to string
-func StringUI(ui uint) string {
-	return StringI(int(ui))
-}
-
-// StringI64 casts int64 to string
-func StringI64(i64 int64) string {
-	return strconv.FormatInt(i64, 10)
-}
-
-// StringF casts float64 to string
-func StringF(f float64) string {
-	return strconv.FormatFloat(f, 'f', -1, 64)
 }

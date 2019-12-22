@@ -2,8 +2,17 @@ package cast
 
 import "reflect"
 
-// Reflect uses reflect to any kind, and it always finishes
-func Reflect(arg interface{}, kind reflect.Kind) (reflect.Value, bool) {
+// Kind = reflect.Kind
+type Kind = reflect.Kind
+
+// Value = reflect.Value
+type Value = reflect.Value
+
+// Slice = reflect.Slice
+const Slice = reflect.Slice
+
+// Reflect uses reflect to any kind
+func Reflect(arg interface{}, kind Kind) (reflect.Value, bool) {
 	val := reflect.ValueOf(arg)
 	return val, val.Kind() == kind
 }
@@ -11,7 +20,7 @@ func Reflect(arg interface{}, kind reflect.Kind) (reflect.Value, bool) {
 // ReflectArray uses reflect to Array
 func ReflectArray(arg interface{}) (out Array, ok bool) {
 	var val reflect.Value
-	if val, ok = Reflect(arg, reflect.Slice); ok {
+	if val, ok = Reflect(arg, Slice); ok {
 		len := val.Len()
 		out = make(Array, len)
 		for i := 0; i < len; i++ {
