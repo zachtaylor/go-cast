@@ -36,19 +36,23 @@ func (a *Array) Add(items ...interface{}) {
 	}
 }
 
-// // String isn't faster than fmt.Sprintf([]interface{})
-// func (a *Array) String() (str string) {
-// 	sb := poolStringBuilder.Get().(StringBuilder)
-// 	sb.WriteByte('[')
-// 	for k, v := range *a {
-// 		if k > 0 {
-// 			sb.WriteByte(' ')
-// 		}
-// 		sb.WriteString(String(v))
-// 	}
-// 	sb.WriteByte(']')
-// 	str = sb.String()
-// 	sb.Reset()
-// 	poolStringBuilder.Put(sb)
-// 	return
-// }
+// String is faster than fmt.Sprintf
+func (a Array) String() (str string) {
+	if a == nil {
+		return ""
+	}
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	sb.Grow(32 * len(a))
+	sb.WriteByte('[')
+	for k, v := range a {
+		if k > 0 {
+			sb.WriteByte(' ')
+		}
+		sb.WriteString(String(v))
+	}
+	sb.WriteByte(']')
+	str = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
+}

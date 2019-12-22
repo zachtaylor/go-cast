@@ -6,6 +6,14 @@ Now I will never write these functions again
 
 ## Changelog
 
+- v0.0.6 @2019-12-21
+  - import `strings.Contains`, `strings.LastIndex`, `strings.Trim`
+  - add `InCharset`, `OutCharset`, package `charset`
+  - separate filename by imports `fmt`, `strconv`
+  - import `reflect.Kind`, `reflect.Value`, `reflect.Slice`
+  - import `time.Duration`, `time.Time`, `time.After`, `time.Now`, `time.Unix`, `time.Millisecond`, `time.Second`, `time.Minute`, `time.Hour`
+  - import `bytes.Buffer`, add `NewBuffer` as `bytes.NewBufferString`
+  - added futher benchmark data and performance tuning
 - v0.0.5 @2019-11-05
   - add `Pool = sync.Pool`
   - add `EncodeJSON(any)`
@@ -40,12 +48,38 @@ Now I will never write these functions again
 
 ## Benchmarks
 
+### v0.0.6
+
+```
+goos: windows
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes-4                   218590940                5.42 ns/op            0 B/op          0 allocs/op
+BenchmarkCastStringBytes-4                      1000000000               0.276 ns/op           0 B/op          0 allocs/op
+BenchmarkBuiltinBytesS-4                        196084774                6.09 ns/op            0 B/op          0 allocs/op
+BenchmarkCastBytesS-4                           1000000000               0.274 ns/op           0 B/op          0 allocs/op
+
+BenchmarkSTDFmtSprintfBuiltinMap-4                160014              6993 ns/op            1736 B/op         36 allocs/op
+BenchmarkSTDJsonMarshalBuiltinMap-4               184621              6169 ns/op            2144 B/op         37 allocs/op
+BenchmarkCastDictEncodeJSON-4                     521524              2314 ns/op             868 B/op         24 allocs/op
+BenchmarkCastStringBuiltinMap-4                   666696              1693 ns/op             798 B/op         11 allocs/op
+BenchmarkCastJSONString-4                         631615              1689 ns/op             798 B/op         11 allocs/op
+BenchmarkCastDictString-4                        1440621               835 ns/op             432 B/op          3 allocs/op
+
+BenchmarkSTDFmtSprintBuiltinSlice-4               923119              1136 ns/op             352 B/op         10 allocs/op
+BenchmarkSTDJsonMarshalBuiltinSlice-4            1465266               821 ns/op             240 B/op          5 allocs/op
+BenchmarkCastStringBuiltinSlice-4                1666755               715 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringCastArray-4                   1621671               719 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringNBuiltinSlice-4               1793746               666 ns/op             184 B/op          5 allocs/op
+```
+
 ### v0.0.5
 
 ```
 goos: windows
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkBuiltinStringBytes-4           225151906                5.37 ns/op            0 B/op          0 allocs/op
 BenchmarkCastStringBytes-4              1000000000               0.266 ns/op           0 B/op          0 allocs/op
 
@@ -65,6 +99,7 @@ BenchmarkStringString-4                 40006533                30.3 ns/op      
 goos: linux
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkBuiltinStringBytes   	39096788	        25.6 ns/op	       0 B/op	       0 allocs/op
 BenchmarkCastStringBytes      	308717432	         3.87 ns/op	       0 B/op	       0 allocs/op
 
@@ -86,6 +121,7 @@ BenchmarkStringString         	 7812093	       148 ns/op	      16 B/op	       1 
 goos: windows
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkBuiltinStringBytes-4           225261331                5.32 ns/op            0 B/op          0 allocs/op
 BenchmarkCastStringBytes-4              1000000000               0.267 ns/op           0 B/op          0 allocs/op
 BenchmarkBuiltinBytesS-4                191671183                6.22 ns/op            0 B/op          0 allocs/op
@@ -100,6 +136,7 @@ BenchmarkStringCastString-4             39680570                31.0 ns/op      
 goos: linux
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkBuiltinStringBytes   	46444358	        25.0 ns/op	       0 B/op	       0 allocs/op
 BenchmarkCastStringBytes      	296433331	         4.05 ns/op	       0 B/op	       0 allocs/op
 BenchmarkBuiltinBytesS        	36157374	        32.9 ns/op	       0 B/op	       0 allocs/op
@@ -116,6 +153,7 @@ BenchmarkStringCastString     	 7351100	       147 ns/op	      16 B/op	       1 
 goos: windows
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkDefaultStringBytes-4           222851612                5.26 ns/op            0 B/op          0 allocs/op
 BenchmarkCastStringBytes-4              1000000000               0.284 ns/op           0 B/op          0 allocs/op
 BenchmarkDefaultBytesS-4                194495706                6.27 ns/op            0 B/op          0 allocs/op
@@ -134,6 +172,7 @@ BenchmarkNilMapCastString-4             17914858                64.7 ns/op      
 goos: linux
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkDefaultStringBytes 	48460549	        25.0 ns/op
 BenchmarkCastStringBytes    	298395208	         3.88 ns/op
 BenchmarkDefaultBytesS      	37349222	        32.2 ns/op
@@ -154,6 +193,7 @@ BenchmarkNilMapCastString   	 4106491	       278 ns/op
 goos: windows
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkStringBytes-4                  1000000000               0.265 ns/op
 BenchmarkDefaultStringBytes-4           224837287                5.32 ns/op
 BenchmarkBytesS-4                       1000000000               0.264 ns/op
@@ -164,6 +204,7 @@ BenchmarkDefaultBytesS-4                196981875                5.97 ns/op
 goos: linux
 goarch: amd64
 pkg: ztaylor.me/cast
+
 BenchmarkStringBytes        	305869677	         3.85 ns/op
 BenchmarkDefaultStringBytes 	46919974	        25.0 ns/op
 BenchmarkBytesS             	298804626	         3.82 ns/op

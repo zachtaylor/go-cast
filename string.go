@@ -21,6 +21,12 @@ func String(arg interface{}) (str string) {
 		str = StringI64(v)
 	case float64:
 		str = StringF(v)
+	case []interface{}:
+		str = Array(v).String()
+	case map[interface{}]interface{}:
+		str = Dict(v).String()
+	case map[string]interface{}:
+		str = JSON(v).String()
 	default:
 		str = Sprint(arg)
 	}
@@ -28,6 +34,8 @@ func String(arg interface{}) (str string) {
 }
 
 // StringN cast any number of values to string
+//
+// the fastest slice encoder in the west
 func StringN(args ...interface{}) (str string) {
 	if args == nil || len(args) < 1 {
 		// skip
@@ -36,6 +44,7 @@ func StringN(args ...interface{}) (str string) {
 	} else {
 		sb, first := poolStringBuilder.Get().(*StringBuilder), true
 		sb.Grow(32 * len(args))
+		sb.WriteByte('[')
 		for _, arg := range args {
 			if first {
 				first = false
@@ -44,6 +53,7 @@ func StringN(args ...interface{}) (str string) {
 			}
 			sb.WriteString(String(arg))
 		}
+		sb.WriteByte(']')
 		str = sb.String()
 		sb.Reset()
 		poolStringBuilder.Put(sb)
