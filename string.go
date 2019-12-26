@@ -44,7 +44,6 @@ func StringN(args ...interface{}) (str string) {
 	} else {
 		sb, first := poolStringBuilder.Get().(*StringBuilder), true
 		sb.Grow(growFactor * len(args))
-		sb.WriteByte('[')
 		for _, arg := range args {
 			if first {
 				first = false
@@ -53,7 +52,6 @@ func StringN(args ...interface{}) (str string) {
 			}
 			sb.WriteString(String(arg))
 		}
-		sb.WriteByte(']')
 		str = sb.String()
 		sb.Reset()
 		poolStringBuilder.Put(sb)
