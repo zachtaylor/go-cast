@@ -14,3 +14,8 @@ func Sprint(a ...interface{}) string {
 func Sprintf(format string, a ...interface{}) string {
 	return fmt.Sprintf(format, a...)
 }
+
+// Fprintf is a shortcut for fmt.Fprintf
+func Fprintf(w Writer, format string, args ...interface{}) (int, error) {
+	return fmt.Fprintf(w, format, args...)
+}
