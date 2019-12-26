@@ -15,7 +15,7 @@ func EncodeJSON(arg interface{}) (str string) {
 	case []byte:
 		str = `"` + EscapeString(StringBytes(v)) + `"`
 	case error:
-		str = `"error: ` + v.Error() + `"`
+		str = `"error: ` + EscapeString(v.Error()) + `"`
 	case bool:
 		str = StringB(v)
 	case int:

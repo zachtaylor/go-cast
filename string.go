@@ -10,7 +10,7 @@ func String(arg interface{}) (str string) {
 	case []byte:
 		str = StringBytes(v)
 	case error:
-		str = v.Error()
+		str = `error: "` + v.Error() + `"`
 	case bool:
 		str = StringB(v)
 	case int:
