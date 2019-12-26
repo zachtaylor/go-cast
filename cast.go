@@ -1,5 +1,7 @@
 package cast // import "ztaylor.me/cast"
 
+var growFactor = 32 // tunes Pool StringBuilder preparatory Grow behavior
+
 // poolStringBuilder is a global variable for pooling StringBuilder
 var poolStringBuilder = Pool{
 	New: func() interface{} {

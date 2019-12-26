@@ -42,7 +42,7 @@ func (a Array) String() (str string) {
 		return ""
 	}
 	sb := poolStringBuilder.Get().(*StringBuilder)
-	sb.Grow(32 * len(a))
+	sb.Grow(growFactor * len(a))
 	sb.WriteByte('[')
 	for k, v := range a {
 		if k > 0 {

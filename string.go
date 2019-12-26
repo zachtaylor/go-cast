@@ -43,7 +43,7 @@ func StringN(args ...interface{}) (str string) {
 		str = String(args[0])
 	} else {
 		sb, first := poolStringBuilder.Get().(*StringBuilder), true
-		sb.Grow(32 * len(args))
+		sb.Grow(growFactor * len(args))
 		sb.WriteByte('[')
 		for _, arg := range args {
 			if first {
