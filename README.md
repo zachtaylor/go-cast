@@ -6,6 +6,12 @@ Now I will never write these functions again
 
 ## Changelog
 
+- v0.0.7 @2019-12-27
+  - fix auto-initialize `Dict`
+  - add support for errors
+  - add `json.GetKeys()`
+  - import `sort.Strings`, `sort.Ints`, `sort.StringSlice`, `sort.IntSlice`
+  - added benchmark data taken from `elemen7s.com`@`v0.0.1`
 - v0.0.6 @2019-12-21
   - import `strings.Contains`, `strings.LastIndex`, `strings.Trim`
   - add `InCharset`, `OutCharset`, package `charset`
@@ -48,6 +54,38 @@ Now I will never write these functions again
 
 ## Benchmarks
 
+### v0.0.7
+
+```
+goos: windows
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes-4                   220974615                5.27 ns/op            0 B/op          0 allocs/op
+BenchmarkCastStringBytes-4                      1000000000               0.271 ns/op           0 B/op          0 allocs/op
+BenchmarkBuiltinBytesS-4                        201013476                5.95 ns/op            0 B/op          0 allocs/op
+BenchmarkCastBytesS-4                           1000000000               0.270 ns/op           0 B/op          0 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap1-4              169264              6237 ns/op            2144 B/op         37 allocs/op
+BenchmarkSTDFmtSprintfBuiltinMap1-4               159984              7026 ns/op            1736 B/op         36 allocs/op
+BenchmarkCastDictEncodeJSON1-4                    545223              2169 ns/op             728 B/op         22 allocs/op
+BenchmarkCastStringBuiltinMap1-4                  856671              1422 ns/op             654 B/op          9 allocs/op
+BenchmarkCastJSONString1-4                        799519              1412 ns/op             654 B/op          9 allocs/op
+BenchmarkCastDictString1-4                       1444072               816 ns/op             432 B/op          3 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap2-4                6319            162995 ns/op           50222 B/op       1005 allocs/op
+BenchmarkSTDFmtSprintfBuiltinMap2-4                 6315            170857 ns/op           44608 B/op        992 allocs/op
+BenchmarkCastDictEncodeJSON2-4                     19448             60621 ns/op           47901 B/op        423 allocs/op
+BenchmarkCastStringBuiltinMap2-4                   19292             62045 ns/op           49093 B/op        419 allocs/op
+BenchmarkCastJSONString2-4                         19231             61777 ns/op           49106 B/op        419 allocs/op
+BenchmarkCastDictString2-4                         19448             60673 ns/op           49074 B/op        419 allocs/op
+
+BenchmarkSTDFmtSprintBuiltinSlice-4              1000000              1109 ns/op             352 B/op         10 allocs/op
+BenchmarkSTDJsonMarshalBuiltinSlice-4            1487037               800 ns/op             240 B/op          5 allocs/op
+BenchmarkCastStringBuiltinSlice-4                1680716               716 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringCastArray-4                   1697365               688 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringNBuiltinSlice-4               1935546               615 ns/op             184 B/op          5 allocs/op
+```
+
 ### v0.0.6
 
 ```
@@ -59,12 +97,19 @@ BenchmarkCastStringBytes-4                      1000000000               0.276 n
 BenchmarkBuiltinBytesS-4                        196084774                6.09 ns/op            0 B/op          0 allocs/op
 BenchmarkCastBytesS-4                           1000000000               0.274 ns/op           0 B/op          0 allocs/op
 
-BenchmarkSTDFmtSprintfBuiltinMap-4                160014              6993 ns/op            1736 B/op         36 allocs/op
-BenchmarkSTDJsonMarshalBuiltinMap-4               184621              6169 ns/op            2144 B/op         37 allocs/op
-BenchmarkCastDictEncodeJSON-4                     521524              2314 ns/op             868 B/op         24 allocs/op
-BenchmarkCastStringBuiltinMap-4                   666696              1693 ns/op             798 B/op         11 allocs/op
-BenchmarkCastJSONString-4                         631615              1689 ns/op             798 B/op         11 allocs/op
-BenchmarkCastDictString-4                        1440621               835 ns/op             432 B/op          3 allocs/op
+BenchmarkSTDJsonMarshalBuiltinMap1-4              181796              5957 ns/op            2144 B/op         37 allocs/op
+BenchmarkSTDFmtSprintfBuiltinMap1-4               164355              7015 ns/op            1736 B/op         36 allocs/op
+BenchmarkCastDictEncodeJSON1-4                    500341              2222 ns/op             872 B/op         24 allocs/op
+BenchmarkCastStringBuiltinMap1-4                  705914              1605 ns/op             798 B/op         11 allocs/op
+BenchmarkCastJSONString1-4                        666684              1642 ns/op             799 B/op         11 allocs/op
+BenchmarkCastDictString1-4                       1505674               798 ns/op             432 B/op          3 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap2-4                6666            157961 ns/op           50224 B/op       1005 allocs/op
+BenchmarkSTDFmtSprintfBuiltinMap2-4                 7058            172566 ns/op           44604 B/op        992 allocs/op
+BenchmarkCastDictEncodeJSON2-4                      6002            188931 ns/op           99948 B/op       1654 allocs/op
+BenchmarkCastStringBuiltinMap2-4                    6000            182161 ns/op          101131 B/op       1649 allocs/op
+BenchmarkCastJSONString2-4                          6002            179769 ns/op          101158 B/op       1649 allocs/op
+BenchmarkCastDictString2-4                          8572            134153 ns/op           80732 B/op       1074 allocs/op
 
 BenchmarkSTDFmtSprintBuiltinSlice-4               923119              1136 ns/op             352 B/op         10 allocs/op
 BenchmarkSTDJsonMarshalBuiltinSlice-4            1465266               821 ns/op             240 B/op          5 allocs/op

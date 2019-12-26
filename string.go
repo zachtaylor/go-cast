@@ -21,10 +21,16 @@ func String(arg interface{}) (str string) {
 		str = StringI64(v)
 	case float64:
 		str = StringF(v)
+	case Array:
+		return v.String()
 	case []interface{}:
 		str = Array(v).String()
+	case Dict:
+		str = v.String()
 	case map[interface{}]interface{}:
 		str = Dict(v).String()
+	case JSON:
+		str = v.String()
 	case map[string]interface{}:
 		str = JSON(v).String()
 	default:
