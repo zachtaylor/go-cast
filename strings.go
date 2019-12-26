@@ -5,13 +5,23 @@ import "strings"
 // StringBuilder is an alias for strings.Builder
 type StringBuilder = strings.Builder
 
-var replacer = strings.NewReplacer(`\`, `\\`, `"`, `\"`)
+// StringReader = strings.Reader
+type StringReader = strings.Reader
+
+// Replacer = strings.Replacer
+type Replacer = strings.Replacer
+
+// NewReplacer usesstrings.Replace
+func NewReplacer(oldnew ...string) *Replacer { return strings.NewReplacer(oldnew...) }
 
 // Contains uses strings.Contains
 func Contains(a, b string) bool { return strings.Contains(a, b) }
 
 // InCharset returns len(Trim()) < 1
 func InCharset(a, b string) bool { return len(Trim(a, b)) < 1 }
+
+// replacer is used by EscapeString
+var replacer = NewReplacer(`\`, `\\`, `"`, `\"`)
 
 // EscapeString escapes '\' and '"' characters
 func EscapeString(s string) string { return replacer.Replace(s) }
@@ -24,3 +34,6 @@ func Trim(a, b string) string { return strings.Trim(a, b) }
 
 // OutCharset returns len(Trim()) > 0
 func OutCharset(a, b string) bool { return len(Trim(a, b)) > 0 }
+
+// NewReader uses strings.NewReader
+func NewReader(s string) *StringReader { return strings.NewReader(s) }
