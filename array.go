@@ -36,23 +36,33 @@ func (a *Array) Add(items ...interface{}) {
 	}
 }
 
-// String is faster than fmt.Sprintf
-func (a Array) String() (str string) {
+// Encode writes Array to string
+func (a Array) Encode(sep byte, encoder func(interface{}) string) (str string) {
 	if a == nil {
-		return ""
+		return
 	}
 	sb := poolStringBuilder.Get().(*StringBuilder)
 	sb.Grow(growFactor * len(a))
 	sb.WriteByte('[')
 	for k, v := range a {
 		if k > 0 {
-			sb.WriteByte(' ')
+			sb.WriteByte(sep)
 		}
-		sb.WriteString(String(v))
+		sb.WriteString(encoder(v))
 	}
 	sb.WriteByte(']')
 	str = sb.String()
 	sb.Reset()
 	poolStringBuilder.Put(sb)
 	return
+}
+
+// String is faster than fmt.Sprintf
+func (a Array) String() string {
+	return a.Encode(' ', String)
+}
+
+// EncodeJSON builds a JSON string representation of this slice
+func (a Array) EncodeJSON() string {
+	return a.Encode(',', EncodeJSON)
 }
