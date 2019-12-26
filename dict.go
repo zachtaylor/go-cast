@@ -6,8 +6,9 @@ type Dict map[interface{}]interface{}
 // DictEncoder writes map to string
 type DictEncoder func(*Dict) string
 
+// get initializes the underlying data store if this was declared as nil
 func (d *Dict) get() Dict {
-	if d == nil {
+	if *d == nil {
 		*d = Dict{}
 	}
 	return *d
