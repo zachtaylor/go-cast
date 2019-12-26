@@ -71,6 +71,18 @@ func (json JSON) GetB(k string) bool {
 	return Bool(json[k])
 }
 
+// GetKeys returns an alphabetically sorted slice of keys
+func (json JSON) GetKeys() []string {
+	keys := make(ArrayS, len(json))
+	var i int
+	for k := range json {
+		keys[i] = k
+		i++
+	}
+	keys.Sort()
+	return keys
+}
+
 // String encodes JSON to string
 func (json JSON) String() (str string) {
 	sb := poolStringBuilder.Get().(*StringBuilder)
