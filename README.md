@@ -8,6 +8,9 @@ Now I will never write these functions again
 
 - v0.0.7 @2019-12-27
   - fix auto-initialize `Dict`
+  - import `fmt.Fprintf`
+  - import `io.Copy`, `io.EOF`, `io.Reader`, `io.Writer`, `io.ReadWriter`, `io.WriteCloser`
+  - add `Write`, `WriteString`, `WriteN`
   - add support for errors
   - add `json.GetKeys()`
   - import `sort.Strings`, `sort.Ints`, `sort.StringSlice`, `sort.IntSlice`
