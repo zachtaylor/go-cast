@@ -9,7 +9,7 @@ Now I will never write these functions again
 - v0.0.7 @2019-12-27
   - fix auto-initialize `Dict`
   - import `fmt.Fprintf`
-  - import `io.Copy`, `io.EOF`, `io.Reader`, `io.Writer`, `io.ReadWriter`, `io.WriteCloser`
+  - import `io.Copy`, `io.EOF`, `io.Reader`, `io.Writer`, `io.Closer`, `io.ReadWriter`, `io.ReadCloser`, `io.ReadWriteCloser`, `io.WriteCloser`
   - add `Write`, `WriteString`, `WriteN`
   - add support for errors
   - add `json.GetKeys()`
