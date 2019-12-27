@@ -10,6 +10,7 @@ Now I will never write these functions again
   - fix auto-initialize `Dict`
   - import `fmt.Fprintf`
   - import `io.Copy`, `io.EOF`, `io.Reader`, `io.Writer`, `io.Closer`, `io.ReadWriter`, `io.ReadCloser`, `io.ReadWriteCloser`, `io.WriteCloser`
+  - import `time.Ticker`, `time.NewTicker`
   - add `Write`, `WriteString`, `WriteN`
   - add support for errors
   - add `json.GetKeys()`
