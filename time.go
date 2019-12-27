@@ -5,17 +5,31 @@ import "time"
 // Duration = time.Duration
 type Duration = time.Duration
 
+// Ticker = time.Ticker
+type Ticker = time.Ticker
+
 // Time = time.Time
 type Time = time.Time
 
 // After returns time.After()
-func After(d Duration) <-chan time.Time { return time.After(d) }
+func After(d Duration) <-chan time.Time {
+	return time.After(d)
+}
+
+// NewTicker creates a time.Ticker
+func NewTicker(d Duration) *Ticker {
+	return time.NewTicker(d)
+}
 
 // Now returns time.Now()
-func Now() Time { return time.Now() }
+func Now() Time {
+	return time.Now()
+}
 
 // Unix return time.Unix()
-func Unix(sec int64, nsec int64) Time { return time.Unix(sec, nsec) }
+func Unix(sec int64, nsec int64) Time {
+	return time.Unix(sec, nsec)
+}
 
 // Millisecond = time.Millisecond
 var Millisecond = time.Millisecond

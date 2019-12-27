@@ -40,43 +40,86 @@ func BenchmarkCastBytesS(b *testing.B) {
 
 // map format
 
-func BenchmarkSTDFmtSprintfBuiltinMap(b *testing.B) {
-	data := MakeDataMap()
-	for i := 0; i < b.N; i++ {
-		fmt.Sprintf("%v", data)
-	}
-}
-
-func BenchmarkSTDJsonMarshalBuiltinMap(b *testing.B) {
-	data := MakeDataMap()
+func BenchmarkSTDJsonMarshalBuiltinMap1(b *testing.B) {
+	data := MakeDataMap1()
 	for i := 0; i < b.N; i++ {
 		json.Marshal(data)
 	}
 }
 
-func BenchmarkCastDictEncodeJSON(b *testing.B) {
-	data, _ := cast.ReflectDict(MakeDataMap())
+func BenchmarkSTDFmtSprintfBuiltinMap1(b *testing.B) {
+	data := MakeDataMap1()
+	for i := 0; i < b.N; i++ {
+		fmt.Sprintf("%v", data)
+	}
+}
+
+func BenchmarkCastDictEncodeJSON1(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap1())
 	for i := 0; i < b.N; i++ {
 		data.EncodeJSON()
 	}
 }
 
-func BenchmarkCastStringBuiltinMap(b *testing.B) {
-	data := MakeDataMap()
+func BenchmarkCastStringBuiltinMap1(b *testing.B) {
+	data := MakeDataMap1()
 	for i := 0; i < b.N; i++ {
 		cast.String(data)
 	}
 }
 
-func BenchmarkCastJSONString(b *testing.B) {
-	data := cast.JSON(MakeDataMap())
+func BenchmarkCastJSONString1(b *testing.B) {
+	data := cast.JSON(MakeDataMap1())
 	for i := 0; i < b.N; i++ {
 		cast.String(data)
 	}
 }
 
-func BenchmarkCastDictString(b *testing.B) {
-	data, _ := cast.ReflectDict(MakeDataMap())
+func BenchmarkCastDictString1(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap1())
+	for i := 0; i < b.N; i++ {
+		data.String()
+	}
+}
+
+// map block 2
+
+func BenchmarkSTDJsonMarshalBuiltinMap2(b *testing.B) {
+	data := MakeDataMap2()
+	for i := 0; i < b.N; i++ {
+		json.Marshal(data)
+	}
+}
+
+func BenchmarkSTDFmtSprintfBuiltinMap2(b *testing.B) {
+	data := MakeDataMap2()
+	for i := 0; i < b.N; i++ {
+		fmt.Sprintf("%v", data)
+	}
+}
+
+func BenchmarkCastDictEncodeJSON2(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap2())
+	for i := 0; i < b.N; i++ {
+		data.EncodeJSON()
+	}
+}
+
+func BenchmarkCastStringBuiltinMap2(b *testing.B) {
+	data := MakeDataMap2()
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+func BenchmarkCastJSONString2(b *testing.B) {
+	data := cast.JSON(MakeDataMap2())
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+
+func BenchmarkCastDictString2(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap2())
 	for i := 0; i < b.N; i++ {
 		data.String()
 	}

@@ -10,7 +10,7 @@ func String(arg interface{}) (str string) {
 	case []byte:
 		str = StringBytes(v)
 	case error:
-		str = v.Error()
+		str = `error: "` + v.Error() + `"`
 	case bool:
 		str = StringB(v)
 	case int:
@@ -21,10 +21,16 @@ func String(arg interface{}) (str string) {
 		str = StringI64(v)
 	case float64:
 		str = StringF(v)
+	case Array:
+		return v.String()
 	case []interface{}:
 		str = Array(v).String()
+	case Dict:
+		str = v.String()
 	case map[interface{}]interface{}:
 		str = Dict(v).String()
+	case JSON:
+		str = v.String()
 	case map[string]interface{}:
 		str = JSON(v).String()
 	default:
@@ -43,8 +49,7 @@ func StringN(args ...interface{}) (str string) {
 		str = String(args[0])
 	} else {
 		sb, first := poolStringBuilder.Get().(*StringBuilder), true
-		sb.Grow(32 * len(args))
-		sb.WriteByte('[')
+		sb.Grow(growFactor * len(args))
 		for _, arg := range args {
 			if first {
 				first = false
@@ -53,7 +58,6 @@ func StringN(args ...interface{}) (str string) {
 			}
 			sb.WriteString(String(arg))
 		}
-		sb.WriteByte(']')
 		str = sb.String()
 		sb.Reset()
 		poolStringBuilder.Put(sb)

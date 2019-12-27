@@ -6,8 +6,9 @@ type Dict map[interface{}]interface{}
 // DictEncoder writes map to string
 type DictEncoder func(*Dict) string
 
+// get initializes the underlying data store if this was declared as nil
 func (d *Dict) get() Dict {
-	if d == nil {
+	if *d == nil {
 		*d = Dict{}
 	}
 	return *d
@@ -28,24 +29,35 @@ func (d *Dict) Unset(k interface{}) {
 	delete(*d, k)
 }
 
-// String uses the same format as fmt but it's faster when Dict is fmt.Stringer
-func (d Dict) String() (str string) {
+// Encode writes Dict to string
+func (d Dict) Encode(start string, sep, end byte, keyEncoder, valEncoder func(interface{}) string) (str string) {
 	sb := poolStringBuilder.Get().(*StringBuilder)
-	sb.Grow(32 * len(d))
-	sb.WriteString(`map[`)
+	sb.Grow(growFactor * len(d))
+	sb.WriteString(start)
 	first := true
 	for k, v := range d {
 		if !first {
-			sb.WriteByte(' ')
+			sb.WriteByte(sep)
+		} else {
+			first = false
 		}
-		sb.WriteString(String(k))
+		sb.WriteString(keyEncoder(k))
 		sb.WriteByte(':')
-		sb.WriteString(String(v))
-		first = false
+		sb.WriteString(valEncoder(v))
 	}
-	sb.WriteByte(']')
+	sb.WriteByte(end)
 	str = sb.String()
 	sb.Reset()
 	poolStringBuilder.Put(sb)
 	return
+}
+
+// String implements fmt.Stringer
+func (d Dict) String() string {
+	return d.Encode(`map[`, ' ', ']', String, String)
+}
+
+// EncodeJSON writes Dict to string in a JSON value format
+func (d Dict) EncodeJSON() string {
+	return d.Encode(`{`, ',', '}', EncodeJSON, EncodeJSON)
 }

@@ -1,19 +1,15 @@
 package cast // import "ztaylor.me/cast"
 
-// poolStringBuilder is a global variable for pooling StringBuilder
-var poolStringBuilder = Pool{
-	New: func() interface{} {
-		return &StringBuilder{}
-	},
-}
+var growFactor = 32 // tunes Pool StringBuilder preparatory Grow behavior
 
-// Pool StringBuilder
+// poolStringBuilder is a global variable for pooling StringBuilder
 //
 // sb := poolStringBuilder.Get().(StringBuilder)
 // ...
 // sb.Reset()
 // poolStringBuilder.Put(sb)
-func init() {
-	// pool first string builder in package scope
-	poolStringBuilder.Put(poolStringBuilder.New())
+var poolStringBuilder = Pool{
+	New: func() interface{} {
+		return &StringBuilder{}
+	},
 }
