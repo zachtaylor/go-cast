@@ -11,6 +11,9 @@ type Ticker = time.Ticker
 // Time = time.Time
 type Time = time.Time
 
+// Timer = time.Timer
+type Timer = time.Timer
+
 // After returns time.After()
 func After(d Duration) <-chan time.Time {
 	return time.After(d)
@@ -19,6 +22,11 @@ func After(d Duration) <-chan time.Time {
 // NewTicker creates a time.Ticker
 func NewTicker(d Duration) *Ticker {
 	return time.NewTicker(d)
+}
+
+// NewTimer creates a time.Timer
+func NewTimer(d Duration) *Timer {
+	return time.NewTimer(d)
 }
 
 // Now returns time.Now()
