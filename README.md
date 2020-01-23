@@ -7,6 +7,9 @@ Now I will never write these functions again
 ## Changelog
 
 - v0.0.9 @2020-01-23
+  - import `time.Tick`
+  - import `sort.Slice`
+  - import `strings.Split`
   - import `reflect.Type`, `reflect.TypeOf`
   - add `cast.KindOf`
 - v0.0.8 @2020-01-11
