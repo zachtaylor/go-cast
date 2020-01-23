@@ -5,6 +5,9 @@ import "time"
 // Duration = time.Duration
 type Duration = time.Duration
 
+// Tick uses time.Tick
+func Tick(d Duration) <-chan Time { return time.Tick(d) }
+
 // Ticker = time.Ticker
 type Ticker = time.Ticker
 
