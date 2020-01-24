@@ -20,6 +20,9 @@ func Contains(a, b string) bool { return strings.Contains(a, b) }
 // InCharset returns len(Trim()) < 1
 func InCharset(a, b string) bool { return len(Trim(a, b)) < 1 }
 
+// Split is an alias for strings.Split
+func Split(s, sep string) []string { return strings.Split(s, sep) }
+
 // replacer is used by EscapeString
 var replacer = NewReplacer(`\`, `\\`, `"`, `\"`)
 

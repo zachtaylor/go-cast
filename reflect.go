@@ -11,8 +11,21 @@ type Value = reflect.Value
 // Slice = reflect.Slice
 const Slice = reflect.Slice
 
+// Type = reflect.Type
+type Type = reflect.Type
+
+// TypeOf is an alias for reflect.TypeOf
+func TypeOf(arg interface{}) Type {
+	return reflect.TypeOf(arg)
+}
+
+// KindOf is an alias for TypeOf().Kind()
+func KindOf(arg interface{}) Kind {
+	return TypeOf(arg).Kind()
+}
+
 // Reflect uses reflect to any kind
-func Reflect(arg interface{}, kind Kind) (reflect.Value, bool) {
+func Reflect(arg interface{}, kind Kind) (Value, bool) {
 	val := reflect.ValueOf(arg)
 	return val, val.Kind() == kind
 }

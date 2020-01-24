@@ -13,6 +13,11 @@ func SortInts(i []int) {
 	sort.Ints(i)
 }
 
+// SortSlice uses sort.Slice
+func SortSlice(slice interface{}, less func(i int, j int) bool) {
+	sort.Slice(slice, less)
+}
+
 // SortStrings uses sort.Strings
 func SortStrings(s []string) {
 	sort.Strings(s)
