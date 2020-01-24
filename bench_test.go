@@ -125,6 +125,49 @@ func BenchmarkCastDictString2(b *testing.B) {
 	}
 }
 
+// map block 3
+
+func BenchmarkSTDJsonMarshalBuiltinMap3(b *testing.B) {
+	data := MakeDataMap3()
+	for i := 0; i < b.N; i++ {
+		json.Marshal(data)
+	}
+}
+
+func BenchmarkSTDFmtSprintfBuiltinMap3(b *testing.B) {
+	data := MakeDataMap3()
+	for i := 0; i < b.N; i++ {
+		fmt.Sprintf("%v", data)
+	}
+}
+
+func BenchmarkCastDictEncodeJSON3(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap3())
+	for i := 0; i < b.N; i++ {
+		data.EncodeJSON()
+	}
+}
+
+func BenchmarkCastStringBuiltinMap3(b *testing.B) {
+	data := MakeDataMap3()
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+func BenchmarkCastJSONString3(b *testing.B) {
+	data := cast.JSON(MakeDataMap3())
+	for i := 0; i < b.N; i++ {
+		cast.String(data)
+	}
+}
+
+func BenchmarkCastDictString3(b *testing.B) {
+	data, _ := cast.ReflectDict(MakeDataMap3())
+	for i := 0; i < b.N; i++ {
+		data.String()
+	}
+}
+
 // array format
 
 func BenchmarkSTDFmtSprintBuiltinSlice(b *testing.B) {
