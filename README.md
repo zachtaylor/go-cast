@@ -6,6 +6,9 @@ Now I will never write these functions again
 
 ## Changelog
 
+- v0.0.10 @2020-01-24
+  - import `reflect.Map`
+  - breaking change `Reflect` to be an alias of `reflect.ValueOf`
 - v0.0.9 @2020-01-23
   - import `time.Tick`
   - import `sort.Slice`
@@ -66,4 +69,13 @@ Now I will never write these functions again
 
 ## Benchmarks
 
-This has been exported to the file [benchmarks.md](benchmarks.md)
+### JSON
+
+Data suggests that `cast/JSON.String()` is 200%-300% faster than `encoding/json.Marshal()` with built in `map`, using about 40% of the `alloc`s used by the standard library
+
+Memory footprint scales differently than that of `json.Marshal`. For small objects, uses about 40% of the memory used by the standard library.
+For medium payloads (<=5Kb) scales to be about similar memory usage. For payloads about 7Kb, memory footprint is almost 8% greater.
+
+### Details
+
+The numbers are kept in the file [benchmarks.md](benchmarks.md)
