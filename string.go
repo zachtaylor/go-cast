@@ -22,7 +22,7 @@ func String(arg interface{}) (str string) {
 	case float64:
 		str = StringF(v)
 	case Array:
-		return v.String()
+		str = v.String()
 	case []interface{}:
 		str = Array(v).String()
 	case Dict:
