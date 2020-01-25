@@ -29,10 +29,29 @@ func (d *Dict) Unset(k interface{}) {
 	delete(*d, k)
 }
 
-// Encode writes Dict to string
-func (d Dict) Encode(start string, sep, end byte, keyEncoder, valEncoder func(interface{}) string) (str string) {
-	sb := poolStringBuilder.Get().(*StringBuilder)
-	sb.Grow(growFactor * len(d))
+// Length returns the number of items in the map
+func (d *Dict) Length() int {
+	return len(d.get())
+}
+
+// Size returns a guess at the number of bytes needed to encode the map
+func (d Dict) Size() (int int) {
+	d.addSize(&int)
+	return
+}
+
+func (d Dict) addSize(int *int) {
+	*int = 2 * len(d) // colons and separators
+	for k, v := range d {
+		*int += Size(k)
+		*int += Size(v)
+	}
+	*int += *int % growFactor // round up to multiple of 32
+	return
+}
+
+func (d Dict) encode(sb *StringBuilder, start string, sep, end byte, keyEncoder, valEncoder func(interface{}) string) {
+	sb.Grow(d.Size())
 	sb.WriteString(start)
 	first := true
 	for k, v := range d {
@@ -46,18 +65,30 @@ func (d Dict) Encode(start string, sep, end byte, keyEncoder, valEncoder func(in
 		sb.WriteString(valEncoder(v))
 	}
 	sb.WriteByte(end)
-	str = sb.String()
+}
+
+// String implements fmt.Stringer
+func (d Dict) String() (string string) {
+	if d == nil {
+		return "nil"
+	}
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	d.encode(sb, `map[`, ' ', ']', String, String)
+	string = sb.String()
 	sb.Reset()
 	poolStringBuilder.Put(sb)
 	return
 }
 
-// String implements fmt.Stringer
-func (d Dict) String() string {
-	return d.Encode(`map[`, ' ', ']', String, String)
-}
-
 // EncodeJSON writes Dict to string in a JSON value format
-func (d Dict) EncodeJSON() string {
-	return d.Encode(`{`, ',', '}', EncodeJSON, EncodeJSON)
+func (d Dict) EncodeJSON() (string string) {
+	if d == nil {
+		return "null"
+	}
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	d.encode(sb, `{`, ',', '}', EncodeJSON, EncodeJSON)
+	string = sb.String()
+	sb.Reset()
+	poolStringBuilder.Put(sb)
+	return
 }

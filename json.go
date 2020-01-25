@@ -83,10 +83,24 @@ func (json JSON) GetKeys() []string {
 	return keys
 }
 
-// String encodes JSON to string
-func (json JSON) String() (str string) {
-	sb := poolStringBuilder.Get().(*StringBuilder)
-	sb.Grow(growFactor * len(json))
+// Size returns a guess at the number of bytes needed to encode the JSON
+func (json JSON) Size() (int int) {
+	json.addSize(&int)
+	return
+}
+
+func (json JSON) addSize(int *int) {
+	*int = 2 * len(json) // colons and commas
+	for k, v := range json {
+		*int += 2 + len(k) // 2 doublequote literals
+		*int += Size(v)
+	}
+	*int += *int % growFactor // round up to multiple of 32
+	return
+}
+
+func (json JSON) encode(sb *StringBuilder) {
+	sb.Grow(json.Size())
 	var k string
 	var v interface{}
 	sb.WriteByte('{')
@@ -103,6 +117,12 @@ func (json JSON) String() (str string) {
 		sb.WriteString(EncodeJSON(v))
 	}
 	sb.WriteByte('}')
+}
+
+// String encodes JSON to string
+func (json JSON) String() (str string) {
+	sb := poolStringBuilder.Get().(*StringBuilder)
+	json.encode(sb)
 	str = sb.String()
 	sb.Reset()
 	poolStringBuilder.Put(sb)

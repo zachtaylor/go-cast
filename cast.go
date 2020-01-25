@@ -1,6 +1,6 @@
 package cast // import "ztaylor.me/cast"
 
-var growFactor = 32 // tunes Pool StringBuilder preparatory Grow behavior
+var growFactor = 32 // tunes grow behavior
 
 // poolStringBuilder is a global variable for pooling StringBuilder
 //
