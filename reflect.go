@@ -23,12 +23,12 @@ func TypeOf(arg interface{}) Type { return reflect.TypeOf(arg) }
 // KindOf is an alias for TypeOf().Kind()
 func KindOf(arg interface{}) Kind { return TypeOf(arg).Kind() }
 
-// Reflect uses reflect to any kind
+// Reflect is an alias for reflect.ValueOf
 func Reflect(arg interface{}) Value { return reflect.ValueOf(arg) }
 
 // ReflectArray uses reflect to Array
 func ReflectArray(arg interface{}) (out Array, ok bool) {
-	if val := Reflect(arg); val.Kind() == Slice {
+	if val := reflect.ValueOf(arg); val.Kind() == Slice {
 		len := val.Len()
 		out = make(Array, len)
 		for i := 0; i < len; i++ {
@@ -41,7 +41,7 @@ func ReflectArray(arg interface{}) (out Array, ok bool) {
 
 // ReflectDict uses reflect to Dict
 func ReflectDict(arg interface{}) (out Dict, ok bool) {
-	if val := Reflect(arg); val.Kind() == Map {
+	if val := reflect.ValueOf(arg); val.Kind() == Map {
 		out = make(Dict)
 		for _, k := range val.MapKeys() {
 			out[k.Interface()] = val.MapIndex(k).Interface()

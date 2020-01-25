@@ -1,14 +1,22 @@
 # ztaylor.me/cast
 
-Provides some super-easy functions for casting values in go
+A swiss-pocket samurai-bayonet type-casting multi-tool for go
 
-Now I will never write these functions again
+## What
+
+A centralized API for type casting in go, replacing the standard library where I have written faster code
+
+Faster encoding than the standard library
+
+Types useful for construction in larger programs
+
+Aliases into the standard library where I haven't written anything faster
 
 ## Changelog
 
-- v0.0.10 @2020-01-24
+- v0.0.10 @2020-01-25
   - import `reflect.Map`
-  - breaking change `Reflect` to be an alias of `reflect.ValueOf`
+  - change `Reflect` to be an alias of `reflect.ValueOf`
 - v0.0.9 @2020-01-23
   - import `time.Tick`
   - import `sort.Slice`
@@ -69,12 +77,17 @@ Now I will never write these functions again
 
 ## Benchmarks
 
-### JSON
+### JSON encoding
 
-Data suggests that `cast/JSON.String()` is 200%-300% faster than `encoding/json.Marshal()` with built in `map`, using about 40% of the `alloc`s used by the standard library
+Data suggests that `cast/JSON.String()` can be up to 200% faster than (runtime 33% of) `encoding/json.Marshal()` with a `map[string]interface{}` of negligable size
 
-Memory footprint scales differently than that of `json.Marshal`. For small objects, uses about 40% of the memory used by the standard library.
-For medium payloads (<=5Kb) scales to be about similar memory usage. For payloads about 7Kb, memory footprint is almost 8% greater.
+This scales to about 30% faster than (runtime 77% of) `encoding/json.Marshal()`  for payload size about 50Kb
+
+This is achieved by using about 40% of the `alloc`s used by the standard library, and significant memory savings as well
+
+### Map encoding
+
+`cast.Dict` encoding is similarly more performant than `map[interface{}]interface{}`
 
 ### Details
 
