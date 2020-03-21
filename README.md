@@ -14,6 +14,8 @@ Aliases into the standard library where I haven't written anything faster
 
 ## Changelog
 
+- v0.0.11 @2020-03-21
+  - import `strings.Join`
 - v0.0.10 @2020-01-25
   - import `reflect.Map`
   - change `Reflect` to be an alias of `reflect.ValueOf`

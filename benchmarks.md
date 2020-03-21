@@ -2,6 +2,47 @@
 
 This document compares version benchmarks, including the latest benchmarks
 
+## v0.0.11
+```
+goos: windows
+goarch: amd64
+pkg: ztaylor.me/cast
+BenchmarkBuiltinStringBytes-4                   222637688                5.22 ns/op            0 B/op          0 allocs/op
+BenchmarkCastStringBytes-4                      1000000000               0.285 ns/op           0 B/op          0 allocs/op
+BenchmarkBuiltinBytesS-4                        196402045                6.03 ns/op            0 B/op          0 allocs/op
+BenchmarkCastBytesS-4                           1000000000               0.274 ns/op           0 B/op          0 allocs/op
+
+BenchmarkSTDFmtSprintBuiltinSlice-4               922111              1101 ns/op             352 B/op         10 allocs/op
+BenchmarkSTDJsonMarshalBuiltinSlice-4            1511382               787 ns/op             240 B/op          5 allocs/op
+BenchmarkCastStringBuiltinSlice-4                1301565               914 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringCastArray-4                   1305806               920 ns/op             216 B/op          6 allocs/op
+BenchmarkCastStringNBuiltinSlice-4               1683080               703 ns/op             216 B/op          5 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap1-4              155829              7161 ns/op            2368 B/op         41 allocs/op
+BenchmarkCastDictEncodeJSON1-4                    315804              3328 ns/op             822 B/op         28 allocs/op
+BenchmarkCastJSONString1-4                        444295              2514 ns/op             769 B/op         13 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap2-4                7495            156899 ns/op           50221 B/op       1005 allocs/op
+BenchmarkCastDictEncodeJSON2-4                      9223            117311 ns/op           32390 B/op        393 allocs/op
+BenchmarkCastJSONString2-4                         10000            116796 ns/op           32353 B/op        389 allocs/op
+
+BenchmarkSTDJsonMarshalBuiltinMap3-4                4800            237703 ns/op           77127 B/op       1537 allocs/op
+BenchmarkCastDictEncodeJSON3-4                      6315            177983 ns/op           50682 B/op        590 allocs/op
+BenchmarkCastJSONString3-4                          6312            176645 ns/op           50650 B/op        586 allocs/op
+
+BenchmarkSTDFmtSprintfBuiltinMap1-4               134821              8515 ns/op            1992 B/op         41 allocs/op
+BenchmarkCastStringBuiltinMap1-4                  444306              2541 ns/op             767 B/op         13 allocs/op
+BenchmarkCastDictString1-4                        631245              1788 ns/op             496 B/op          5 allocs/op
+
+BenchmarkSTDFmtSprintfBuiltinMap2-4                 6662            165561 ns/op           44605 B/op        992 allocs/op
+BenchmarkCastStringBuiltinMap2-4                    9224            117298 ns/op           32353 B/op        389 allocs/op
+BenchmarkCastDictString2-4                          9234            116629 ns/op           32353 B/op        389 allocs/op
+
+BenchmarkSTDFmtSprintfBuiltinMap3-4                 4442            253031 ns/op           66167 B/op       1507 allocs/op
+BenchmarkCastStringBuiltinMap3-4                    6315            178141 ns/op           50650 B/op        586 allocs/op
+BenchmarkCastDictString3-4                          6312            177910 ns/op           50650 B/op        586 allocs/op
+```
+
 ## v0.0.10
 ```
 goos: windows
